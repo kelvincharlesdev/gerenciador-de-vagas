@@ -12,13 +12,15 @@ SaaS que ajuda profissionais de TI a encontrar vagas compatíveis com seu perfil
 
 ## Stack
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Frontend | Next.js 16 (App Router) + Tailwind CSS v4 |
-| Backend/Dados | Supabase (PostgreSQL + Auth + Storage) |
-| IA | OpenRouter (Gemini Flash no MVP, OpenAI em produção) |
-| Motor de Vagas | [vagas-dev](https://github.com/henriquesebastiao/vagas-dev) (Gupy + LinkedIn) |
-| Deploy | Vercel |
+| Camada | Tecnologia | Versão |
+|--------|-----------|--------|
+| Runtime | Node.js | 24 LTS (Krypton) |
+| Frontend | Next.js + React | 16 + 19 |
+| Estilos | Tailwind CSS | v4 |
+| Backend/Dados | Supabase (PostgreSQL + Auth + Storage) | v2 |
+| IA | OpenRouter (Gemini Flash no MVP) | — |
+| Motor de Vagas | [vagas-dev](https://github.com/henriquesebastiao/vagas-dev) (Gupy + LinkedIn) | — |
+| Deploy | Vercel | — |
 
 ## Roadmap
 
