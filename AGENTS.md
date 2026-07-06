@@ -27,6 +27,10 @@ npm run typecheck    # tsc --noEmit
 6. Upload de currículo: bucket PRIVADO, não público
 7. Rodar `node .opencode/skills/security-lgpd-review/validate.mjs` depois de cada change
 
+## README
+
+Manter README.md sempre sincronizado com o estado atual do projeto. Toda change que afetar stack, funcionalidades, roadmap ou instruções de setup DEVE atualizar o README junto.
+
 ## Post-Apply Validation
 
 Após finalizar qualquer `/opsx-apply`, rodar:
