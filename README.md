@@ -23,9 +23,9 @@ SaaS que ajuda profissionais de TI a encontrar vagas compatíveis com seu perfil
 ## Roadmap
 
 ```
-□ FUNDAÇÃO     → Setup, auth, deploy
-□ NÚCLEO       → Agente RH, busca, match, dashboard
-□ CURRÍCULO    → Análise e ajuste de currículo
+□ STAGE 01 — Fundação     → Setup, auth, deploy
+□ STAGE 02 — Busca        → Agente RH, vagas, match, dashboard
+□ STAGE 03 — Currículo    → Análise e ajuste de currículo
 ```
 
 ## Desenvolvimento
@@ -41,9 +41,9 @@ npm run typecheck # tsc --noEmit
 
 Todo o planejamento e implementação são guiados pelo OpenSpec. As changes ativas:
 
-- `setup-fundacao` — Base do projeto + autenticação
-- `nucleo-busca` — Agente RH + vagas + match + dashboard
-- `curriculo` — Análise e ajuste de currículo
+- `stage-01-fundacao` — Base do projeto + autenticação
+- `stage-02-nucleo-busca` — Agente RH + vagas + match + dashboard
+- `stage-03-curriculo` — Análise e ajuste de currículo
 
 Validadores automáticos rodam após cada change para garantir segurança e qualidade do código.
 
