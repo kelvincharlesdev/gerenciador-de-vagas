@@ -2,7 +2,7 @@
 
 ## Stack
 
-- **Frontend**: Next.js 14+ (App Router) + Tailwind CSS v4
+- **Frontend**: Next.js 16 (App Router) + Tailwind CSS v4
 - **Backend/Dados**: Supabase (PostgreSQL + Auth + Storage)
 - **IA**: OpenRouter (OpenAI-compatível, modelos gratuitos no MVP)
 - **Motor de Vagas**: vagas-dev (API externa, Gupy + LinkedIn)

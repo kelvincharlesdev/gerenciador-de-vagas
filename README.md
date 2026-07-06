@@ -14,7 +14,7 @@ SaaS que ajuda profissionais de TI a encontrar vagas compatíveis com seu perfil
 
 | Camada | Tecnologia |
 |--------|-----------|
-| Frontend | Next.js 14+ (App Router) + Tailwind CSS v4 |
+| Frontend | Next.js 16 (App Router) + Tailwind CSS v4 |
 | Backend/Dados | Supabase (PostgreSQL + Auth + Storage) |
 | IA | OpenRouter (Gemini Flash no MVP, OpenAI em produção) |
 | Motor de Vagas | [vagas-dev](https://github.com/henriquesebastiao/vagas-dev) (Gupy + LinkedIn) |

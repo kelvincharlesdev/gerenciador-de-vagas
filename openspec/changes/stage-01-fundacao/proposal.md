@@ -4,7 +4,7 @@ O projeto precisa de uma base sólida antes de qualquer funcionalidade: setup do
 
 ## What Changes
 
-- Inicializar projeto Next.js 14+ com App Router e Tailwind CSS v4
+- Inicializar projeto Next.js 16 com App Router e Tailwind CSS v4
 - Configurar Supabase (projeto, Auth, banco PostgreSQL, Storage)
 - Configurar integração com API de IA (OpenRouter)
 - Implementar sistema de autenticação (Google, GitHub, email)

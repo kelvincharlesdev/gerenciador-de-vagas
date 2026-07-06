@@ -1,6 +1,6 @@
 ## Context
 
-Primeira change do projeto. Precisamos estabelecer a fundação técnica: Next.js 14+ com App Router, Tailwind CSS v4, Supabase (Auth + PostgreSQL + Storage), integração com API de IA via OpenRouter, e deploy na Vercel.
+Primeira change do projeto. Precisamos estabelecer a fundação técnica: Next.js 16 com App Router, Tailwind CSS v4, Supabase (Auth + PostgreSQL + Storage), integração com API de IA via OpenRouter, deploy na Vercel, Node.js 24 LTS.
 
 ## Goals / Non-Goals
 
@@ -20,8 +20,11 @@ Primeira change do projeto. Precisamos estabelecer a fundação técnica: Next.j
 
 | Decisão | Escolha | Motivo |
 |---------|---------|--------|
+| Runtime | Node.js 24 LTS (Krypton) | Active LTS, suporte até 2028 |
+| Framework | Next.js 16 (App Router) | Última versão estável |
+| UI | React 19 + Tailwind CSS v4 | Últimas versões estáveis |
 | Auth | Supabase Auth (SSR) | Já incluso, RLS nativo, grátis |
-| ORM | Supabase JS client (raw SQL via migrations) | Evita camada extra no MVP |
+| ORM | Supabase JS client v2 (raw SQL via migrations) | Evita camada extra no MVP |
 | Storage | Supabase Storage (bucket privado) | Mesmo ecossistema, RLS |
 | Deploy | Vercel | Free tier, integração Next.js nativa |
 | IA Client | OpenRouter SDK (OpenAI-compatível) | Troca de modelo sem mudar código |

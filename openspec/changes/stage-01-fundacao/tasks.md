@@ -1,6 +1,6 @@
 ## 1. Setup do Projeto
 
-- [ ] 1.1 Inicializar Next.js 14+ com App Router usando `create-next-app`
+- [ ] 1.1 Inicializar Next.js 16 com App Router usando `npx create-next-app@latest`
 - [ ] 1.2 Configurar Tailwind CSS v4 (postcss, tailwind.config, globals.css)
 - [ ] 1.3 Configurar ESLint + Prettier + editorconfig
 - [ ] 1.4 Instalar plugins de segurança: `eslint-plugin-security` e `eslint-plugin-no-secrets`
