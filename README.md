@@ -1,0 +1,52 @@
+# Gerenciador de Vagas
+
+SaaS que ajuda profissionais de TI a encontrar vagas compatíveis com seu perfil real. Um agente de IA especialista em RH entrevista o candidato, busca vagas em múltiplas fontes (LinkedIn, Gupy), calcula o match perfeito e ainda ajusta o currículo para cada vaga.
+
+## Funcionalidades
+
+- **Agente RH** — Entrevista com IA que extrai seu perfil real (senioridade, stack, preferências)
+- **Busca Inteligente** — Vagas agregadas do LinkedIn e Gupy via vagas-dev
+- **Match Perfil-Vaga** — Score de compatibilidade calculado em 5 dimensões
+- **Análise de Currículo** — Upload de PDF + diagnóstico IA com scores por eixo ATS
+- **Ajuste por Vaga** — Currículo reescrito e otimizado para a vaga escolhida
+
+## Stack
+
+| Camada | Tecnologia |
+|--------|-----------|
+| Frontend | Next.js 14+ (App Router) + Tailwind CSS v4 |
+| Backend/Dados | Supabase (PostgreSQL + Auth + Storage) |
+| IA | OpenRouter (Gemini Flash no MVP, OpenAI em produção) |
+| Motor de Vagas | [vagas-dev](https://github.com/henriquesebastiao/vagas-dev) (Gupy + LinkedIn) |
+| Deploy | Vercel |
+
+## Roadmap
+
+```
+□ FUNDAÇÃO     → Setup, auth, deploy
+□ NÚCLEO       → Agente RH, busca, match, dashboard
+□ CURRÍCULO    → Análise e ajuste de currículo
+```
+
+## Desenvolvimento
+
+```bash
+npm run dev       # dev server
+npm run build     # build production
+npm run lint      # ESLint
+npm run typecheck # tsc --noEmit
+```
+
+## Projeto com IA
+
+Todo o planejamento e implementação são guiados pelo OpenSpec. As changes ativas:
+
+- `setup-fundacao` — Base do projeto + autenticação
+- `nucleo-busca` — Agente RH + vagas + match + dashboard
+- `curriculo` — Análise e ajuste de currículo
+
+Validadores automáticos rodam após cada change para garantir segurança e qualidade do código.
+
+## Licença
+
+MIT
