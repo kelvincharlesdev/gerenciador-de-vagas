@@ -31,6 +31,31 @@ npm run typecheck    # tsc --noEmit
 
 Manter README.md sempre sincronizado com o estado atual do projeto. Toda change que afetar stack, funcionalidades, roadmap ou instruções de setup DEVE atualizar o README junto.
 
+## Conventional Commits
+
+Todo commit DEVE seguir conventional commits com contexto. Cada contexto lógico em um commit separado:
+
+```
+chore: add ESLint and Prettier config
+feat: implement login with email/password
+refactor: move app code into src/ directory
+docs: update README with stage progress
+fix: translate auth error messages to pt-BR
+```
+
+NUNCA fazer commit único com múltiplos contextos.
+
+## Pré-Commit Obrigatório
+
+Antes de todo commit, rodar SEMPRE:
+
+```bash
+npm run lint && npm run typecheck
+node .opencode/skills/security-lgpd-review/validate.mjs
+```
+
+Se algum falhar, corrigir antes de commitar.
+
 ## Post-Apply Validation
 
 Após finalizar qualquer `/opsx-apply`, rodar:
