@@ -25,7 +25,7 @@ SaaS que ajuda profissionais de TI a encontrar vagas compatíveis com seu perfil
 ## Roadmap
 
 ```
-□ STAGE 01 — Fundação     → Setup, auth, deploy
+✔ STAGE 01 — Fundação     → Setup, auth, deploy
 □ STAGE 02 — Busca        → Agente RH, vagas, match, dashboard
 □ STAGE 03 — Currículo    → Análise e ajuste de currículo
 ```
