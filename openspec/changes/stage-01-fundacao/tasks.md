@@ -10,10 +10,10 @@
 
 ## 2. Supabase
 
-> **Nota:** Tasks 2.1 e 2.2 são manuais (criar projeto no dashboard do Supabase e configurar provedores OAuth). As migrations SQL para 2.3–2.6 estão em `supabase/migrations/`.
+> **Nota:** As migrations SQL para 2.3–2.6 estão em `supabase/migrations/`.
 
-- [ ] 2.1 Criar projeto Supabase (plano free) — **manual**
-- [ ] 2.2 Configurar Auth (Google + GitHub + email providers) — **manual**
+- [x] 2.1 Criar projeto Supabase (plano free) — **manual** ✅ feito
+- [ ] ~~2.2 Configurar Auth (Google + GitHub + email providers)~~ — **cancelado**, apenas email/senha
 - [x] 2.3 Criar tabela `profiles` (id, name, email, avatar_url, created_at) — via migration `00001_profiles.sql`
 - [x] 2.4 Configurar trigger SQL para criar profile ao registrar — via migration `00001_profiles.sql`
 - [x] 2.5 Configurar Supabase Storage (bucket `curriculos` privado) — via migration `00002_storage.sql`
