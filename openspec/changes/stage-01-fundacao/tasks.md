@@ -39,7 +39,7 @@
 
 > **Nota:** Tasks 5.1–5.3 são manuais (Vercel dashboard). As variáveis de ambiente necessárias estão em `.env.local.example`.
 
-- [ ] 5.1 Conectar repositório à Vercel — **manual**
-- [ ] 5.2 Configurar variáveis de ambiente na Vercel — **manual**
-- [ ] 5.3 Fazer deploy inicial e validar — **manual**
+- [x] 5.1 Conectar repositório à Vercel — ✅ feito
+- [x] 5.2 Configurar variáveis de ambiente na Vercel — ✅ feito
+- [x] 5.3 Fazer deploy inicial e validar — ✅ https://gerenciador-de-vagas.vercel.app
 - [x] 5.4 Rodar validadores: `node .opencode/skills/security-lgpd-review/validate.mjs && node .opencode/skills/code-quality-review/validate.mjs`
