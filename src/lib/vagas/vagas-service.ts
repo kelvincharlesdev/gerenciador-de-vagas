@@ -1,6 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
-
-const VAGAS_API_BASE = "https://vagas-api.henriquesebastiao.com";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 interface VagaRaw {
   id?: string;
@@ -55,58 +53,68 @@ export interface VagasFiltro {
 }
 
 export async function buscarVagas(
+  supabase: SupabaseClient | null,
   filtro: VagasFiltro,
 ): Promise<Vaga[]> {
-  const supabase = await createClient();
 
-  const { data: cached } = await supabase
-    .from("vagas_cache")
-    .select("*")
-    .contains("keywords_busca", [filtro.keyword || ""])
-    .gte("expires_at", new Date().toISOString())
-    .limit(50);
+  if (supabase) {
+    try {
+      const { data: cached } = await supabase
+        .from("vagas_cache")
+        .select("*")
+        .contains("keywords_busca", [filtro.keyword || ""])
+        .gte("expires_at", new Date().toISOString())
+        .limit(50);
 
-  if (cached && cached.length > 0) {
-    return cached.map(formatarVaga);
+      if (cached && cached.length > 0) {
+        return cached.map(formatarVaga);
+      }
+    } catch {
+    }
   }
 
   const params = new URLSearchParams();
   if (filtro.keyword) params.set("keyword", filtro.keyword);
   params.set("limit", "50");
 
-  const response = await fetch(`${VAGAS_API_BASE}/jobs?${params}`);
-  if (!response.ok) return [];
+  try {
+    const res = await fetch(`/api/vagas?${params}`);
+    const data = await res.json();
+    const vagas: VagaRaw[] = data.jobs || [];
 
-  const data = await response.json();
-  const vagas: VagaRaw[] = Array.isArray(data) ? data : data.jobs || [];
+    const vagasFormatadas = vagas.map((v: VagaRaw) => ({
+      id_externo: String(v.id || v.id_externo || crypto.randomUUID()),
+      titulo: v.titulo || v.title || "",
+      empresa: v.empresa || v.company || "",
+      local: v.local || v.location || "",
+      tipo: v.tipo || v.type || "",
+      fonte: v.fonte || v.source || "gupy",
+      url: v.url || v.link || "",
+      salario: v.salario || v.salary || "",
+      senioridade: v.senioridade || v.level || "",
+      descricao: v.descricao || v.description || "",
+      keywords_busca: [filtro.keyword || ""],
+      data_publicacao: v.data_publicacao || v.published_at || new Date().toISOString(),
+      raw_json: v,
+    }));
 
-  const vagasFormatadas = vagas.map((v: VagaRaw) => ({
-    id_externo: String(v.id || v.id_externo || crypto.randomUUID()),
-    titulo: v.titulo || v.title || "",
-    empresa: v.empresa || v.company || "",
-    local: v.local || v.location || "",
-    tipo: v.tipo || v.type || "",
-    fonte: v.fonte || v.source || "gupy",
-    url: v.url || v.link || "",
-    salario: v.salario || v.salary || "",
-    senioridade: v.senioridade || v.level || "",
-    descricao: v.descricao || v.description || "",
-    keywords_busca: [filtro.keyword || ""],
-    data_publicacao: v.data_publicacao || v.published_at || new Date().toISOString(),
-    raw_json: v,
-  }));
+    if (supabase && vagasFormatadas.length > 0) {
+      try {
+        await supabase.from("vagas_cache").upsert(
+          vagasFormatadas.map((v) => ({
+            ...v,
+            expires_at: new Date(Date.now() + 3600000).toISOString(),
+          })),
+          { onConflict: "id_externo" },
+        );
+      } catch {
+      }
+    }
 
-  if (vagasFormatadas.length > 0) {
-    await supabase.from("vagas_cache").upsert(
-      vagasFormatadas.map((v) => ({
-        ...v,
-        expires_at: new Date(Date.now() + 3600000).toISOString(),
-      })),
-      { onConflict: "id_externo" },
-    );
+    return vagasFormatadas.map(formatarVaga);
+  } catch {
+    return [];
   }
-
-  return vagasFormatadas.map(formatarVaga);
 }
 
 function formatarVaga(v: Record<string, unknown>): Vaga {
@@ -128,11 +136,11 @@ function formatarVaga(v: Record<string, unknown>): Vaga {
 }
 
 export async function favoritarVaga(
+  supabase: SupabaseClient,
   userId: string,
   vagaId: string,
   favorito: boolean,
 ) {
-  const supabase = await createClient();
 
   if (favorito) {
     await supabase.from("vagas_favoritas").upsert(
@@ -149,9 +157,9 @@ export async function favoritarVaga(
 }
 
 export async function listarFavoritos(
+  supabase: SupabaseClient,
   userId: string,
 ): Promise<string[]> {
-  const supabase = await createClient();
   const { data } = await supabase
     .from("vagas_favoritas")
     .select("vaga_id")

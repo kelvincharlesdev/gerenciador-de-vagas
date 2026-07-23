@@ -12,6 +12,7 @@ import { calcularMatch } from "@/lib/match/match-service";
 import type { PerfilCandidato } from "@/lib/entrevista/entrevista-service";
 
 export default function VagasPage() {
+  const supabase = createClient();
   const [vagas, setVagas] = useState<Vaga[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,42 +28,41 @@ export default function VagasPage() {
   const [vagaModal, setVagaModal] = useState<Vaga | null>(null);
 
   useEffect(() => {
-    init();
-  }, []);
+    async function init() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-  async function init() {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+      setUserId(user.id);
 
-    setUserId(user.id);
+      const { data: profile } = await supabase
+        .from("profiles_candidate")
+        .select("perfil_json")
+        .eq("user_id", user.id)
+        .single();
 
-    const { data: profile } = await supabase
-      .from("profiles_candidate")
-      .select("perfil_json")
-      .eq("user_id", user.id)
-      .single();
+      if (profile?.perfil_json) {
+        setPerfil(profile.perfil_json as PerfilCandidato);
+        setFiltro((f) => ({
+          ...f,
+          keyword: (profile.perfil_json as PerfilCandidato).keywords_busca?.join(" ") || "",
+        }));
+      }
 
-    if (profile?.perfil_json) {
-      setPerfil(profile.perfil_json as PerfilCandidato);
-      setFiltro((f) => ({
-        ...f,
-        keyword: (profile.perfil_json as PerfilCandidato).keywords_busca?.join(" ") || "",
-      }));
+      const favs = await listarFavoritos(supabase, user.id);
+      setFavoritos(favs);
+
+      await carregarVagas();
     }
 
-    const favs = await listarFavoritos(user.id);
-    setFavoritos(favs);
-
-    carregarVagas();
-  }
+    init();
+  }, []);
 
   async function carregarVagas() {
     setLoading(true);
     setError(null);
 
     try {
-      const vagasEncontradas = await buscarVagas({
+      const vagasEncontradas = await buscarVagas(supabase, {
         keyword: filtro.keyword || undefined,
         local: filtro.local || undefined,
         tipo_trabalho: filtro.tipo_trabalho || undefined,
@@ -87,7 +87,7 @@ export default function VagasPage() {
   async function toggleFavorito(vagaId: string) {
     if (!userId) return;
     const isFav = favoritos.includes(vagaId);
-    await favoritarVaga(userId, vagaId, !isFav);
+    await favoritarVaga(supabase, userId, vagaId, !isFav);
 
     setFavoritos((prev) =>
       isFav ? prev.filter((id) => id !== vagaId) : [...prev, vagaId],

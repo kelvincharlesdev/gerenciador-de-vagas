@@ -1,5 +1,5 @@
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-const MODEL = process.env.OPENROUTER_MODEL ?? "google/gemini-2.0-flash-lite";
+const MODEL = process.env.OPENROUTER_MODEL ?? "google/gemini-2.5-flash-lite";
 
 export interface AIOptions {
   systemPrompt?: string;

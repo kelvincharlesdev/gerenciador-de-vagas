@@ -33,7 +33,7 @@ export default function DashboardPage() {
         const perfilData = profile.perfil_json as PerfilCandidato;
         setPerfil(perfilData);
 
-        const vagas = await buscarVagas({
+        const vagas = await buscarVagas(supabase, {
           keyword: perfilData.keywords_busca?.join(" ") || "",
         });
 
