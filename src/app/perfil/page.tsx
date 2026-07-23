@@ -7,8 +7,6 @@ import {
   type Mensagem,
   type PerfilCandidato,
   gerarPromptInicial,
-  gerarProximaPergunta,
-  extrairPerfil,
 } from "@/lib/entrevista/entrevista-service";
 
 export default function PerfilPage() {
@@ -18,6 +16,7 @@ export default function PerfilPage() {
   const [perfil, setPerfil] = useState<PerfilCandidato | null>(null);
   const [editando, setEditando] = useState(false);
   const [salvo, setSalvo] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
   const chatRef = useRef<HTMLDivElement>(null);
@@ -36,13 +35,20 @@ export default function PerfilPage() {
     setLoading(true);
 
     try {
-      const resultado = await gerarProximaPergunta(novoHistorico);
-      const perfilExtraido = extrairPerfil(resultado.content);
+      const res = await fetch("/api/entrevista", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ historico: novoHistorico }),
+      });
 
-      setHistorico((prev) => [...prev, resultado]);
+      if (!res.ok) throw new Error("Erro na API");
 
-      if (perfilExtraido) {
-        setPerfil(perfilExtraido);
+      const data = await res.json();
+
+      setHistorico((prev) => [...prev, data.mensagem]);
+
+      if (data.perfil) {
+        setPerfil(data.perfil);
       }
     } catch {
       setHistorico((prev) => [
@@ -58,6 +64,8 @@ export default function PerfilPage() {
 
   async function salvarPerfil() {
     if (!perfil) return;
+    setSaveError(null);
+    setLoading(true);
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
@@ -73,9 +81,12 @@ export default function PerfilPage() {
       updated_at: new Date().toISOString(),
     });
 
-    if (!error) {
+    if (error) {
+      setSaveError(error.message);
+    } else {
       setSalvo(true);
     }
+    setLoading(false);
   }
 
   function reiniciar() {
@@ -120,11 +131,15 @@ export default function PerfilPage() {
         <div className="rounded-lg border border-zinc-200 p-6">
           <PerfilView perfil={perfil} />
           <div className="mt-6 flex flex-col gap-3">
+            {saveError && (
+              <p className="text-sm text-red-600">{saveError}</p>
+            )}
             <button
               onClick={salvarPerfil}
-              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700"
+              disabled={loading}
+              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:opacity-50"
             >
-              Salvar perfil
+              {loading ? "Salvando..." : "Salvar perfil"}
             </button>
             <button
               onClick={() => setEditando(true)}
